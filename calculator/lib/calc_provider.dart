@@ -10,7 +10,7 @@ Calcnotifier():super("");
 
 void display_num(String elem){
 
-if(RegExp(r'^[0-9]$').hasMatch(elem)){
+if(RegExp(r'^\d+(\.\d+)?$').hasMatch(elem)){
 
    state=state+elem;
 }
