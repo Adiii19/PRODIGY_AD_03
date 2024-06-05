@@ -37,7 +37,7 @@ class _CalcScreenState extends ConsumerState<CalcScreen> {
             padding: const EdgeInsets.only(left: 10,right: 25,top: 5),
             child: Container(
               decoration: BoxDecoration(
-                  color: Color.fromARGB(77, 228, 225, 225),
+                  color: Color.fromARGB(77, 200, 232, 235),
                   border: Border.all(color: const Color.fromARGB(255, 122, 124, 126)),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(16),
@@ -76,7 +76,7 @@ class _CalcScreenState extends ConsumerState<CalcScreen> {
               width: 450,
               height: 410,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 226, 221, 221),
+                color: Color.fromARGB(255, 177, 215, 229),
                  border: Border.all(color: const Color.fromARGB(255, 122, 124, 126)),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(16),
