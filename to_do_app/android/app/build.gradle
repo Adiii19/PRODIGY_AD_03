@@ -1,33 +1,13 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
-}
-
-apply plugin: 'com.google.gms.google-services'
-
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader("UTF-8") { reader ->
-        localProperties.load(reader)
-    }
-}
-
-def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
-if (flutterVersionCode == null) {
-    flutterVersionCode = "1"
-}
-
-def flutterVersionName = localProperties.getProperty("flutter.versionName")
-if (flutterVersionName == null) {
-    flutterVersionName = "1.0"
+    id 'com.google.gms.google-services' apply false
 }
 
 android {
     namespace = "com.example.to_do_app"
-    compileSdkVersion 34 // Updated SDK version
+    compileSdk = 34 // Updated SDK version
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -39,8 +19,8 @@ android {
         applicationId = "com.example.to_do_app"
         minSdkVersion 21 // Ensure this matches your minSdk version requirement
         targetSdkVersion 34 // Updated SDK version
-        versionCode = flutterVersionCode.toInteger()
-        versionName = flutterVersionName
+        versionCode = 1
+        versionName = "1.0"
     }
 
     buildTypes {
@@ -59,3 +39,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database'
 }
+
+apply plugin: 'com.google.gms.google-services'

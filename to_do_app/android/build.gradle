@@ -1,3 +1,23 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.2' // Adjust this version as needed
+        classpath 'com.google.gms:google-services:4.4.2'
+
+    }
+
+}
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services' apply false
+}
+
+
 allprojects {
     repositories {
         google()
