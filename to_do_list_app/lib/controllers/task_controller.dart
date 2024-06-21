@@ -18,7 +18,7 @@ class TaskController extends GetxController {
   RxInt? hour = 2.obs;
   RxInt? min = 4.obs;
   RxInt? hourcheck = 4.obs;
-  RxString? id;
+  RxString? id=''.obs;
   Rx<Category?> category = Category.Work.obs;
 
   void task_adder() async {
@@ -34,12 +34,12 @@ class TaskController extends GetxController {
             'hour': hour?.value,
             'min': min?.value,
             'hourcheck': hourcheck?.value,
-            'id': id ?? '',
             'category': category.value.toString().split('.').last
           }));
 
       final data = json.decode(response.body) as Map<String, dynamic>;
-      id?.value = data['name'];
+      final String id = data['name'];
+
       tasklist.add(
         Task(
             taskname: data['taskname'],
@@ -47,10 +47,11 @@ class TaskController extends GetxController {
             date: data['date'],
             hour: data['hour'],
             min: data['min'],
-            id: data['id'],
+            id: id,
             hourcheck: data['hourcheck'],
             category: data['category']),
       );
+      print(tasklist);
     }
   }
 }

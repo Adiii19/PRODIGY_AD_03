@@ -142,10 +142,7 @@ class IntialScreen extends StatelessWidget {
                             if (initcontroller.setter.value) {
                                   initcontroller.name=_nameController.text.obs;
 
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return MainScreen();
-                              }));
+                             Get.to(MainScreen());
                             }else{
                               initcontroller.button_changer();
                             }

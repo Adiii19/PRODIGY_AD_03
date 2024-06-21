@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_list_app/controllers/initial_controller.dart';
 import 'package:to_do_list_app/controllers/task_controller.dart';
+import 'package:to_do_list_app/models/model.dart';
 import 'package:to_do_list_app/new_entry.dart';
 import 'package:to_do_list_app/widgets/taskItem.dart';
+import 'package:http/http.dart'as http;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -12,6 +16,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+      final TaskController task_controller=Get.put(TaskController());
+
   void showmodealsheet() {
     showModalBottomSheet(
       sheetAnimationStyle: AnimationStyle(
@@ -26,12 +32,58 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  Future<void> loaditems()async{
+
+     final url=Uri.https(
+      'task-manager-app-67b0c-default-rtdb.firebaseio.com', '/Tasklist.json');
+    final response = await http.get(url);
+
+    if (response.statusCode >= 400) {
+      print('Failed to fetch data. Please try again.');
+      return;
+    }
+
+     if (response.body == 'null') {
+      print("Body null");
+      setState(() {
+        task_controller.tasklist.value = [];
+      });
+      return;
+    }
+
+    final Map<dynamic, dynamic> data =
+        json.decode(response.body) as Map<dynamic, dynamic>;
+    for (var entry in data.entries) {
+    
+      final Task task = Task(
+          taskname: entry.value['taskname'],
+          description: entry.value['taskdesc'],
+          date:DateTime.parse(entry.value['date']),
+          hour: entry.value['hour']as int ,
+          min: entry.value['min']as int,
+          id: entry.key,
+          category: entry.value['category'],
+          hourcheck: entry.value['hourcheck']as int);
+
+          task_controller.tasklist.add(task);
+         
+          print(task);
+    }
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loaditems();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
     final InitialController initialController = Get.put(InitialController());
-    final TaskController task_controller=Get.put(TaskController());
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -312,14 +364,16 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                         
-                        ListView.builder(
-                         itemCount: task_controller.tasklist.length,
-                          itemBuilder:(ctx,index)
-                        {
-                          final task=task_controller.tasklist[index];
-                          return
-                                  Taskitem(task:task);
-                        } )
+                        Expanded(
+                          child: ListView.builder(
+                           itemCount: task_controller.tasklist.length,
+                            itemBuilder:(ctx,index)
+                          {
+                            final task=task_controller.tasklist[index];
+                            return
+                                    Taskitem(task:task);
+                          } ),
+                        )
 
                     ],
                   ),

@@ -41,7 +41,7 @@ class Taskitem extends StatelessWidget{
                                     vertical: 4, horizontal: 15),
                                 child: Obx(
                                   ()=>Text(
-                                    '${task_controller.taskname}',
+                                    '${task_controller.taskname.value}',
                                     style: GoogleFonts.quicksand(
                                         color: Colors.black,
                                         fontSize: 20,
@@ -54,7 +54,7 @@ class Taskitem extends StatelessWidget{
                                     vertical: 4, horizontal: 15),
                                 child: Obx(
                                   ()=> Text(
-                                    '${task_controller.category}',
+                                    '${task_controller.category.value}',
                                     style: GoogleFonts.quicksand(
                                         color: Colors.black,
                                         fontSize: 15,
@@ -90,7 +90,7 @@ class Taskitem extends StatelessWidget{
                                             vertical: 4, horizontal: 15),
                                         child: Obx(
                                           ()=> Text(
-                                            'Deadline : ${task_controller.date}',
+                                            'Deadline : ${task_controller.date.value}',
                                             style: GoogleFonts.quicksand(
                                                 color: Colors.black,
                                                 fontSize: 15,

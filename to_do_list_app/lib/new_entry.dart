@@ -3,21 +3,62 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_list_app/controllers/task_controller.dart';
 import 'package:to_do_list_app/models/model.dart';
+import 'package:intl/intl.dart';
 
-class NewEntry extends StatelessWidget{
+class NewEntry extends StatefulWidget{
 
 
+  @override
+  State<NewEntry> createState() => _NewEntryState();
+}
+
+class _NewEntryState extends State<NewEntry> {
    DateTime? selectedDate;
+
   TimeOfDay? selectedTime;
+
   var enteredcategory=Category.Family;
 
   final _taskNameController = TextEditingController();
+
   final _taskDescriptionController = TextEditingController();
 
   final TaskController taskController=Get.put(TaskController());
 
-  
+   void presentDatePicker(BuildContext context) async {
+    final now = DateTime.now();
+    final pickedDate = await showDatePicker(
+     context: context,
+      initialDate: now,
+      firstDate: now,
+      lastDate: DateTime(now.year + 1),
+    );
 
+    if (pickedDate != null) {
+      
+        setState(() {
+  selectedDate = pickedDate;
+  
+  taskController.date.value=pickedDate!;
+});
+      
+    }
+  }
+
+    void timePicker() async {
+    final now = TimeOfDay.now();
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: now,
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        selectedTime = pickedTime;
+      });
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +78,7 @@ class NewEntry extends StatelessWidget{
                 ),
                 child: TextField(
                   controller: _taskNameController,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text(
@@ -64,8 +105,9 @@ class NewEntry extends StatelessWidget{
                   controller: _taskDescriptionController,
                   maxLines: 6,
                   minLines: 1,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
+                    
                     border: OutlineInputBorder(),
                     label: Text(
                       "Task Description",
@@ -98,12 +140,14 @@ class NewEntry extends StatelessWidget{
                       Row(
                         children: [
                           IconButton(
-                            onPressed:(){},// presentDatePicker,
+                            onPressed:(){
+                               presentDatePicker(context);
+                            },
                             icon: Icon(Icons.calendar_month_outlined, color: Colors.blueAccent),
                           ),
                           SizedBox(width: 5),
                           Text(
-                             'Select Date' , 
+                              selectedDate == null ? 'Select Date' : DateFormat.yMd().format(selectedDate!) , 
                             style: GoogleFonts.urbanist(
                                 color: Colors.black,
                                 fontSize: 14,
@@ -111,7 +155,9 @@ class NewEntry extends StatelessWidget{
                           ),
                           SizedBox(width: 10),
                           IconButton(
-                            onPressed:(){},// timePicker,
+                            onPressed:(){
+                              timePicker();
+                            },// timePicker,
                             icon: Icon(Icons.watch_later_outlined, color: Colors.blueAccent),
                           ),
                           Text(
@@ -124,28 +170,37 @@ class NewEntry extends StatelessWidget{
                         ],
                       ),
                       SizedBox(height: 20,),
-                      DropdownButtonFormField(value: enteredcategory,items: [
-                          for(final category in Category.values)
-                          DropdownMenuItem(
-                            value: category,
-                            child: Text(category.name,style: TextStyle(
-                              color: Colors.blueGrey
-                            ),),
-                          )
-
-
-                      ] , onChanged: (value){
-                        enteredcategory=value!;
-                        taskController.category.value=value;
-                      })
+                     
                     ],
                   ),
                 ),
               ),
             ),
             SizedBox(height: 20),
-            Obx(
-              ()=> TextButton(
+
+            Text('Choose a Category:', style: GoogleFonts.urbanist(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w200),),
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 50),
+               child: DropdownButtonFormField(value: enteredcategory,items: [
+                            for(final category in Category.values)
+                            DropdownMenuItem(
+                              value: category,
+                              child: Text(category.name,style: TextStyle(
+                                color: Colors.blueGrey
+                              ),),
+                            )
+               
+               
+                        ] , onChanged: (value){
+                          enteredcategory=value!;
+                          taskController.category.value=value;
+                        }),
+             ),
+                      SizedBox(height: 10,),
+           TextButton(
                 onPressed: (){
                   taskController.AddButton.value=true;
                   taskController.taskname.value=_taskNameController.text;
@@ -180,9 +235,10 @@ class NewEntry extends StatelessWidget{
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600)
                   ),
+                  
                 ),
               ),
-            ),
+            
           ],
         ),
       ),
