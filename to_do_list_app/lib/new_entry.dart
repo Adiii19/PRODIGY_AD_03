@@ -210,8 +210,11 @@ class _NewEntryState extends State<NewEntry> {
                   taskController.min?.value=selectedTime!.minute;
                   taskController.hourcheck?.value=selectedTime!.hour;
                   taskController.category.value=enteredcategory;
-                  taskController.task_adder();
+                 
+                  setState(() {
+                     taskController.task_adder();
                   Navigator.of(context).pop();
+                  });
                 },
                 child: Container(
                   width: 300,

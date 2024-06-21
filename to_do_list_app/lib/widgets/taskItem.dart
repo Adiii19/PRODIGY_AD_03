@@ -16,7 +16,7 @@ class Taskitem extends StatelessWidget{
     // TODO: implement build
     return
               Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 7),
                         child: Container(
                           width: 400,
                           height: 135,
@@ -39,28 +39,27 @@ class Taskitem extends StatelessWidget{
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 15),
-                                child: Obx(
-                                  ()=>Text(
-                                    '${task_controller.taskname.value}',
+                                child:
+                                  Text(
+                                    '${task?.taskname}',
                                     style: GoogleFonts.quicksand(
                                         color: Colors.black,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600),
                                   ),
-                                ),
+                                
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 15),
-                                child: Obx(
-                                  ()=> Text(
-                                    '${task_controller.category.value}',
+                                child:  Text(
+                                    '${task?.description}',
                                     style: GoogleFonts.quicksand(
                                         color: Colors.black,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                ),
+                                
                               ),
                               Row(
                                 children: [
@@ -88,15 +87,15 @@ class Taskitem extends StatelessWidget{
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4, horizontal: 15),
-                                        child: Obx(
-                                          ()=> Text(
-                                            'Deadline : ${task_controller.date.value}',
+                                        child: 
+                                          Text(
+                                            'Deadline : ${task?.Formatteddate}',
                                             style: GoogleFonts.quicksand(
                                                 color: Colors.black,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w700),
                                           ),
-                                        ),
+                                        
                                       ),
                                     ),
                                   ),

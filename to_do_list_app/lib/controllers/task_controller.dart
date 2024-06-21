@@ -9,7 +9,17 @@ import 'package:http/http.dart' as http;
 import 'package:to_do_list_app/models/model.dart';
 
 class TaskController extends GetxController {
-  RxList tasklist = [].obs;
+  RxList<Task> tasklist = [
+    Task(
+        taskname: 'fgk',
+        description: 'lo',
+        date: DateTime.now(),
+        hour: 0,
+        min: 5,
+        id: '',
+        hourcheck: 5,
+        category: Category.Family.toString())
+  ].obs;
   RxBool AddButton = false.obs;
   RxString taskname = ''.obs;
   RxString taskdesc = ''.obs;
@@ -18,7 +28,7 @@ class TaskController extends GetxController {
   RxInt? hour = 2.obs;
   RxInt? min = 4.obs;
   RxInt? hourcheck = 4.obs;
-  RxString? id=''.obs;
+  RxString? id = ''.obs;
   Rx<Category?> category = Category.Work.obs;
 
   void task_adder() async {
@@ -51,7 +61,7 @@ class TaskController extends GetxController {
             hourcheck: data['hourcheck'],
             category: data['category']),
       );
-      print(tasklist);
+         print(tasklist);
     }
   }
 }
