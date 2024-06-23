@@ -11,11 +11,11 @@ import 'package:to_do_list_app/models/model.dart';
 class TaskController extends GetxController {
   RxList<Task> tasklist = [
     Task(
-        taskname: 'fgk',
-        description: 'lo',
+        taskname: 'Task1',
+        description: 'Sample',
         date: DateTime.now(),
-        hour: 0,
-        min: 5,
+        hour: 12,
+        min: 50,
         id: '',
         hourcheck: 5,
         category: Category.Family.toString())
@@ -50,18 +50,75 @@ class TaskController extends GetxController {
       final data = json.decode(response.body) as Map<String, dynamic>;
       final String id = data['name'];
 
-      tasklist.add(
-        Task(
-            taskname: data['taskname'],
-            description: data['taskdesc'],
-            date: data['date'],
-            hour: data['hour'],
-            min: data['min'],
-            id: id,
-            hourcheck: data['hourcheck'],
-            category: data['category']),
-      );
-         print(tasklist);
+      tasklist.add(Task(
+        taskname: taskname.value,
+        description: taskdesc.value,
+        date: date.value,
+        hour: hour?.value,
+        min: min?.value,
+        hourcheck: hourcheck?.value,
+        id: id,
+        category: category.value.toString(),
+      ));
+      print(tasklist.last.id);
     }
   }
+
+  void edittask(Task initialtask) async {
+    if (initialtask != null) {
+      final url = Uri.https('to-do-list-29552-default-rtdb.firebaseio.com',
+          '/Tasklist/${initialtask.id}.json');
+      final response = await http.patch(
+        url,
+        headers: {'Content-type': 'application/json'},
+        body: json.encode({
+          'taskname': initialtask.taskname,
+          'taskdesc': initialtask.description,
+          'date': initialtask.date!.toIso8601String(),
+          'hour':initialtask.hour,
+          'min': initialtask.min,
+          'hourcheck': initialtask.hour,
+          'id': initialtask?.id ?? '',
+          'category':initialtask.category.toString().split('.').last
+        }),
+      );
+
+      if (response.statusCode >= 400) {
+        print('Failed to update task. Please try again.');
+        return;
+      }
+
+      final updatedtaskindex =
+          tasklist.indexWhere((element) => element.id == initialtask.id);
+      if (updatedtaskindex != -1) {
+        tasklist[updatedtaskindex] = Task(
+            taskname: initialtask.taskname,
+            description: initialtask.description,
+            date: initialtask.date,
+            hour: initialtask.hour,
+            min: initialtask.min,
+            id: initialtask.id,
+            hourcheck: initialtask.hour,
+            category: initialtask.category.toString());
+      }
+      
+    }
+
+  }
+
+  void removetask(String taskid)async{
+
+    final url=Uri.https('to-do-list-29552-default-rtdb.firebaseio.com','/Tasklist/$taskid.json');
+
+    final response=await http.delete(url);
+
+    if(response.statusCode>=400)
+    {
+      print('Failed to delete task. Please try again.');
+    }
+
+    tasklist.removeWhere((task)=>task.id==taskid);
+
+  }
+
 }

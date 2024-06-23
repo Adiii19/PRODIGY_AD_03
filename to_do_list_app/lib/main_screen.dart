@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:to_do_list_app/category_screen.dart';
 import 'package:to_do_list_app/controllers/initial_controller.dart';
 import 'package:to_do_list_app/controllers/task_controller.dart';
 import 'package:to_do_list_app/models/model.dart';
@@ -147,7 +148,7 @@ class _MainScreenState extends State<MainScreen> {
                         )),
                     child: Container(
                       height: 200,
-                      width: 190,
+                      width: MediaQuery.of(context).size.width*5,
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -175,153 +176,177 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           ),
                           Expanded(
-                            child: GridView.count(
-                              crossAxisCount: 2,
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.only(left: 10, bottom: 5),
-                              childAspectRatio: 0.67,
-                              children: [
-                                Card(
-                                  elevation: 15,
-                                  margin: EdgeInsets.all(10),
-                                  child: Stack(
-                                    children: [
-                                      Image(
-                                        image:
-                                            AssetImage('assets/images/work.jpg'),
-                                        height: 90,
-                                        width: 200,
-                                        fit: BoxFit.cover,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: GridView.count(
+                                crossAxisCount: 2,
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.only(left: 4, bottom: 5),
+                                childAspectRatio: 0.67,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CategoryScreen(cat_name: 'Work')));
+                                    },
+                                    child: Card(
+                                      
+                                      elevation: 15,
+                                      margin: EdgeInsets.all(10),
+                                      child: Stack(
+                                        children: [
+                                          Image(
+                                            image:
+                                                AssetImage('assets/images/work.jpg'),
+                                            height: 110,
+                                            width: 200,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(74, 0, 0, 0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(1))),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 120,
+                                              top: 80,
+                                            ),
+                                            child: Text(
+                                              "Work",
+                                              style: GoogleFonts.urbanist(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        width: 190,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(74, 0, 0, 0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 120,
-                                          top: 80,
-                                        ),
-                                        child: Text(
-                                          "Work",
-                                          style: GoogleFonts.urbanist(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                ),
-                                Card(
-                                  elevation: 15,
-                                  margin: EdgeInsets.all(10),
-                                  child: Stack(
-                                    children: [
-                                      Image(
-                                        image:
-                                            AssetImage('assets/images/fam.jpg'),
-                                        height: 103,
-                                        width: 212,
-                                        fit: BoxFit.cover,
+                                  InkWell(
+                                    onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CategoryScreen(cat_name: 'Family')));
+                                    },
+                                    child: Card(
+                                      elevation: 15,
+                                      margin: EdgeInsets.all(10),
+                                      child: Stack(
+                                        children: [
+                                          Image(
+                                            image:
+                                                AssetImage('assets/images/fam.jpg'),
+                                            height: 110,
+                                            width: 212,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          Container(
+                                            width: 193,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(74, 0, 0, 0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(1))),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 109,
+                                              top: 80,
+                                            ),
+                                            child: Text(
+                                              "Family",
+                                              style: GoogleFonts.urbanist(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        width: 193,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(74, 0, 0, 0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 109,
-                                          top: 80,
-                                        ),
-                                        child: Text(
-                                          "Family",
-                                          style: GoogleFonts.urbanist(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                ),
-                                Card(
-                                  margin: EdgeInsets.all(10),
-                                  elevation: 10,
-                                  child: Stack(
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                            'assets/images/leisure.jpg'),
-                                        height: 100,
-                                        width: 210,
-                                        fit: BoxFit.cover,
+                                  InkWell(
+                                    onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CategoryScreen(cat_name: 'Leisure')));
+                                    },
+                                    child: Card(
+                                      margin: EdgeInsets.all(10),
+                                      elevation: 10,
+                                      child: Stack(
+                                        children: [
+                                          Image(
+                                            image: AssetImage(
+                                                'assets/images/leisure.jpg'),
+                                            height: 110,
+                                            width: 210,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          Container(
+                                            width: 190,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(74, 0, 0, 0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(1))),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 103,
+                                              top: 80,
+                                            ),
+                                            child: Text(
+                                              "Leisure",
+                                              style: GoogleFonts.urbanist(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        width: 190,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(74, 0, 0, 0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 103,
-                                          top: 80,
-                                        ),
-                                        child: Text(
-                                          "Leisure",
-                                          style: GoogleFonts.urbanist(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                ),
-                                Card(
-                                  margin: EdgeInsets.all(10),
-                                  elevation: 10,
-                                  child: Stack(
-                                    children: [
-                                      Image(
-                                        image: AssetImage(
-                                            'assets/images/health.jpg'),
-                                        height: 100,
-                                        width: 210,
-                                        fit: BoxFit.cover,
+                                  InkWell(
+                                    onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CategoryScreen(cat_name: 'Health')));
+                                    },
+                                    child: Card(
+                                      margin: EdgeInsets.all(10),
+                                      elevation: 10,
+                                      child: Stack(
+                                        children: [
+                                          Image(
+                                            image: AssetImage(
+                                                'assets/images/health.jpg'),
+                                            height: 110,
+                                            width: 210,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          Container(
+                                            width: 190,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(74, 0, 0, 0),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(1))),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 103,
+                                              top: 80,
+                                            ),
+                                            child: Text(
+                                              "Health",
+                                              style: GoogleFonts.urbanist(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      Container(
-                                        width: 190,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(74, 0, 0, 0),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 103,
-                                          top: 80,
-                                        ),
-                                        child: Text(
-                                          "Health",
-                                          style: GoogleFonts.urbanist(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -373,7 +398,7 @@ class _MainScreenState extends State<MainScreen> {
                               {
                                 final taskw=task_controller.tasklist[index];
                                 return
-                                        Taskitem(task:taskw);
+                                  Taskitem(task:taskw);
                               } ),
                             ),
                           )
