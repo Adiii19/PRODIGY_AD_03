@@ -9,17 +9,11 @@ import 'package:http/http.dart' as http;
 import 'package:to_do_list_app/models/model.dart';
 
 class TaskController extends GetxController {
-  RxList<Task> tasklist = [
-    Task(
-        taskname: 'Task1',
-        description: 'Sample',
-        date: DateTime.now(),
-        hour: 12,
-        min: 50,
-        id: '',
-        hourcheck: 5,
-        category: Category.Family.toString())
-  ].obs;
+  RxList<Task> tasklist = <Task>[].obs;
+    RxList<Task> filtlist = <Task>[].obs;
+
+
+  
   RxBool AddButton = false.obs;
   RxString taskname = ''.obs;
   RxString taskdesc = ''.obs;
@@ -60,7 +54,9 @@ class TaskController extends GetxController {
         id: id,
         category: category.value.toString(),
       ));
-      print(tasklist.last.id);
+      update();
+      print(tasklist);
+
     }
   }
 
@@ -118,6 +114,7 @@ class TaskController extends GetxController {
     }
 
     tasklist.removeWhere((task)=>task.id==taskid);
+    update();
 
   }
 
